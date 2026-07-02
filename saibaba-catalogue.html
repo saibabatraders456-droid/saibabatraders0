@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sai Baba Traders — Wholesale FMCG Catalogue</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B2947;
+    --navy-2:#123A63;
+    --navy-3:#0A2138;
+    --saffron:#E8830E;
+    --saffron-deep:#C56A05;
+    --saffron-tint:#FDECD2;
+    --paper:#F7F5EF;
+    --paper-2:#F1EDE2;
+    --ink:#1B1B1B;
+    --slate:#5B6472;
+    --line:#D8D3C7;
+    --green:#1E7145;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:#3a3a38;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Sora',sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---------- Screen toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:50;
+    background:var(--navy-3);
+    color:#fff;
+    padding:14px 22px;
+    display:flex;align-items:center;justify-content:space-between;
+    font-family:'Inter',sans-serif;
+    box-shadow:0 2px 10px rgba(0,0,0,.35);
+  }
+  .toolbar .t-left{display:flex;align-items:center;gap:12px;}
+  .toolbar .t-left .dot{width:9px;height:9px;border-radius:50%;background:var(--saffron);}
+  .toolbar strong{font-family:'Sora',sans-serif;letter-spacing:.02em;}
+  .toolbar button{
+    background:var(--saffron);
+    color:#1B1B1B;
+    border:none;
+    font-weight:600;
+    padding:9px 16px;
+    border-radius:4px;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;
+  }
+  .toolbar button:hover{background:#f2a03d;}
+  .toolbar span.hint{color:#B9C4D2;font-size:12.5px;}
+
+  /* ---------- Page shell ---------- */
+  .catalogue{
+    max-width:210mm;
+    margin:26px auto 60px;
+    display:flex;flex-direction:column;
+    gap:18px;
+  }
+  .page{
+    width:210mm;
+    min-height:297mm;
+    background:var(--paper);
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+    margin:0 auto;
+  }
+  .page-inner{
+    position:relative;
+    z-index:2;
+    padding:16mm 15mm 14mm;
+    min-height:297mm;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- shared header/footer for content pages ---------- */
+  .p-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    border-bottom:2px solid var(--navy);
+    padding-bottom:9px;margin-bottom:20px;
+  }
+  .p-head .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--saffron-deep);font-weight:600;
+  }
+  .p-head .wordmark{
+    font-family:'Sora',sans-serif;font-weight:700;font-size:14px;color:var(--navy);letter-spacing:.02em;
+  }
+  .p-foot{
+    margin-top:auto;
+    border-top:1px solid var(--line);
+    padding-top:8px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;color:var(--slate);
+  }
+  .p-foot .pg{color:var(--navy);font-weight:600;}
+
+  /* ---------- seal / stamp signature element ---------- */
+  .seal{
+    width:132px;height:132px;border-radius:50%;
+    border:2.5px solid var(--saffron);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    transform:rotate(-9deg);
+    flex-shrink:0;
+  }
+  .seal::before{
+    content:"";position:absolute;inset:8px;border:1px solid var(--saffron);border-radius:50%;
+  }
+  .seal .seal-text{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:8.6px;letter-spacing:.06em;text-align:center;color:var(--saffron-deep);
+    line-height:1.5;text-transform:uppercase;font-weight:600;
+    padding:0 12px;
+  }
+  .seal .seal-text b{display:block;font-size:11px;color:var(--navy);letter-spacing:.03em;}
+
+  /* ---------- cover ---------- */
+  .cover{
+    background:
+      radial-gradient(circle at 85% 8%, rgba(232,131,14,.20), transparent 40%),
+      linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 55%,var(--navy-3) 100%);
+    color:#fff;
+  }
+  .cover .page-inner{padding:20mm 16mm;}
+  .cover .top-row{display:flex;justify-content:space-between;align-items:flex-start;}
+  .cover .est{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:#9FB4CC;text-transform:uppercase;}
+  .cover .kicker{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--saffron);margin-bottom:18px;font-weight:600;
+  }
+  .cover h1{
+    font-size:64px;line-height:1.02;font-weight:800;margin:0 0 10px;color:#fff;letter-spacing:-.01em;
+  }
+  .cover h1 span{color:var(--saffron);}
+  .cover .sub{font-size:17px;color:#C9D5E3;max-width:480px;line-height:1.55;margin-bottom:34px;}
+  .cover .manifest{
+    margin-top:auto;
+    border-top:1px solid rgba(255,255,255,.18);
+    padding-top:16px;
+  }
+  .cover .manifest .lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:#7E93AC;text-transform:uppercase;margin-bottom:9px;}
+  .cover .brand-row{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#DCE6F0;letter-spacing:.03em;
+    display:flex;flex-wrap:wrap;gap:0;
+  }
+  .cover .brand-row span{padding:0 12px 8px 0;white-space:nowrap;}
+  .cover .brand-row span:not(:last-child)::after{content:"•";color:var(--saffron);margin-left:12px;}
+  .cover .bottom-strip{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.18);
+  }
+  .cover .bottom-strip .addr{font-size:12px;color:#B9C4D2;line-height:1.6;max-width:300px;}
+  .cover .bottom-strip .web{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--saffron);font-weight:600;}
+  .cover-seal{position:absolute;top:20mm;right:15mm;}
+  .cover-seal .seal{border-color:rgba(255,255,255,.55);}
+  .cover-seal .seal::before{border-color:rgba(255,255,255,.35);}
+  .cover-seal .seal-text{color:#DCE6F0;}
+  .cover-seal .seal-text b{color:#fff;}
+
+  /* ---------- divider pages ---------- */
+  .divider{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;}
+  .divider .page-inner{padding:20mm 16mm;justify-content:center;}
+  .divider .d-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--saffron);text-transform:uppercase;margin-bottom:14px;}
+  .divider h2{font-size:46px;color:#fff;line-height:1.08;margin:0 0 16px;font-weight:800;max-width:520px;}
+  .divider p.lead{font-size:15px;color:#C9D5E3;max-width:440px;line-height:1.65;margin-bottom:28px;}
+  .brand-icons{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;}
+  .brand-chip{
+    display:flex;align-items:center;gap:9px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:30px;padding:8px 16px 8px 8px;
+  }
+  .brand-chip .ic{
+    width:30px;height:30px;border-radius:50%;background:var(--saffron);color:var(--navy-3);
+    display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;font-size:11px;
+  }
+  .brand-chip .nm{font-size:12.5px;color:#fff;font-weight:500;}
+
+  /* ---------- generic content blocks ---------- */
+  .lead-para{font-size:14.5px;line-height:1.75;color:#333;max-width:600px;}
+  h2.pt{font-size:30px;color:var(--navy);margin:0 0 6px;font-weight:800;}
+  p.dek{font-size:13.5px;color:var(--slate);max-width:520px;margin:0 0 24px;line-height:1.6;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 26px;}
+  .stat-card{background:#fff;border:1px solid var(--line);border-left:3px solid var(--saffron);padding:16px 14px;}
+  .stat-card .num{font-family:'Sora',sans-serif;font-size:28px;font-weight:800;color:var(--navy);line-height:1;}
+  .stat-card .lbl{font-size:10.5px;color:var(--slate);margin-top:6px;text-transform:uppercase;letter-spacing:.05em;}
+
+  .two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:start;}
+  .info-panel{background:#fff;border:1px solid var(--line);padding:18px 18px;}
+  .info-panel h3{font-size:13px;color:var(--navy);margin:0 0 10px;text-transform:uppercase;letter-spacing:.04em;}
+  .info-panel ul{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:#333;}
+
+  .feature-list{list-style:none;margin:0;padding:0;}
+  .feature-list li{
+    display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);
+  }
+  .feature-list li:last-child{border-bottom:none;}
+  .feature-list .fi{
+    width:34px;height:34px;border-radius:50%;background:var(--saffron-tint);color:var(--saffron-deep);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Sora',sans-serif;font-size:13px;flex-shrink:0;
+  }
+  .feature-list .ft h4{margin:0 0 3px;font-size:13.5px;color:var(--navy);}
+  .feature-list .ft p{margin:0;font-size:12px;color:var(--slate);line-height:1.55;}
+
+  /* ---------- category product pages ---------- */
+  .cat-band{
+    background:var(--navy);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
+  }
+  .cat-band .cn{font-family:'Sora',sans-serif;font-weight:700;font-size:15px;}
+  .cat-band .cc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--saffron);text-transform:uppercase;letter-spacing:.1em;}
+  .brand-block{margin-bottom:18px;background:#fff;border:1px solid var(--line);}
+  .brand-block .bb-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 14px;background:var(--paper-2);border-bottom:1px solid var(--line);
+  }
+  .brand-block .bb-head .bn{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--navy);}
+  .brand-block .bb-head .tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--green);text-transform:uppercase;letter-spacing:.06em;}
+  .bb-body{padding:12px 14px;}
+  .prod-tags{display:flex;flex-wrap:wrap;gap:7px;}
+  .prod-tags span{
+    font-size:11.5px;background:var(--paper);border:1px solid var(--line);padding:5px 10px;color:#333;
+  }
+
+  /* ---------- brand partners grid page ---------- */
+  .partner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .partner-card{
+    background:#fff;border:1px solid var(--line);padding:18px 14px;text-align:center;
+  }
+  .partner-card .mark{
+    width:52px;height:52px;border-radius:50%;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:center;margin:0 auto 10px;
+    font-family:'Sora',sans-serif;font-weight:700;font-size:14px;
+  }
+  .partner-card .nm{font-family:'Sora',sans-serif;font-weight:700;font-size:13px;color:var(--navy);}
+  .partner-card .cat{font-size:10.5px;color:var(--slate);margin-top:4px;}
+
+  /* ---------- process / steps ---------- */
+  .step-row{display:flex;gap:16px;margin-bottom:16px;}
+  .step-mark{
+    width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;
+  }
+  .step-body h4{margin:0 0 4px;font-size:14px;color:var(--navy);}
+  .step-body p{margin:0;font-size:12.5px;color:var(--slate);line-height:1.6;max-width:460px;}
+
+  /* ---------- table ---------- */
+  table.terms{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.terms th{
+    background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-family:'Sora',sans-serif;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;
+  }
+  table.terms td{padding:10px 12px;border-bottom:1px solid var(--line);color:#333;}
+  table.terms tr:nth-child(even) td{background:#fff;}
+  table.terms tr:nth-child(odd) td{background:var(--paper-2);}
+
+  /* ---------- quote / testimonial ---------- */
+  .quote-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--saffron);padding:16px 18px;margin-bottom:12px;}
+  .quote-card p{margin:0 0 10px;font-size:13px;font-style:italic;color:#333;line-height:1.6;}
+  .quote-card .who{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--slate);text-transform:uppercase;letter-spacing:.05em;}
+
+  /* ---------- FAQ ---------- */
+  .faq-item{border-bottom:1px solid var(--line);padding:14px 0;}
+  .faq-item h4{margin:0 0 6px;font-size:13.5px;color:var(--navy);font-family:'Sora',sans-serif;}
+  .faq-item p{margin:0;font-size:12.5px;color:#444;line-height:1.65;}
+
+  /* ---------- contact / back cover ---------- */
+  .contact-page{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;}
+  .contact-page .page-inner{padding:20mm 16mm;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px;}
+  .c-block{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);padding:18px;}
+  .c-block h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--saffron);}
+  .c-block .num-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1);font-family:'IBM Plex Mono',monospace;font-size:14px;}
+  .c-block .num-row:last-child{border-bottom:none;}
+  .c-block .num-row .l{color:#B9C4D2;font-family:'Inter',sans-serif;font-size:12.5px;}
+  .back-web{
+    text-align:center;margin-top:30px;padding:22px;border:1px dashed rgba(255,255,255,.3);
+  }
+  .back-web .w{font-family:'Sora',sans-serif;font-size:26px;font-weight:800;color:#fff;}
+  .back-web .w span{color:var(--saffron);}
+  .back-web .g{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9FB4CC;margin-top:6px;}
+
+  @media screen and (max-width:900px){
+    .catalogue{transform:scale(.42);transform-origin:top center;margin-bottom:-1550px;}
+  }
+
+  @media print{
+    body{background:#fff;}
+    .toolbar{display:none;}
+    .catalogue{margin:0;gap:0;max-width:none;}
+    .page{box-shadow:none;margin:0;page-break-after:always;}
+    @page{size:A4;margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="t-left">
+    <div class="dot"></div>
+    <strong>SAI BABA TRADERS</strong>
+    <span class="hint">Wholesale FMCG Catalogue — 24 pages — screen preview (scaled down on mobile)</span>
+  </div>
+  <button onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+<div class="catalogue">
+
+  <!-- ============ PAGE 1 — COVER ============ -->
+  <div class="page cover">
+    <div class="page-inner">
+      <div class="top-row">
+        <div>
+          <div class="kicker">Super Stockist &amp; Distributor</div>
+          <h1>SAI BABA<br><span>TRADERS</span></h1>
+          <p class="sub">Large-scale wholesale distribution of India's leading FMCG brands — stocked, sorted and dispatched from our own warehouse godowns in Hyderabad.</p>
+        </div>
+      </div>
+      <div class="cover-seal">
+        <div class="seal">
+          <div class="seal-text"><b>Authorised</b>Super Stockist<br>GSTIN Verified<br>Hyderabad, TS</div>
+        </div>
+      </div>
+      <div class="manifest">
+        <div class="lbl">Principal Companies on Record</div>
+        <div class="brand-row">
+          <span>GSK</span><span>HUL</span><span>Nestlé</span><span>Emami</span><span>Dabur</span><span>Johnson &amp; Johnson</span><span>Himalaya</span><span>Cadbury</span><span>P&amp;G</span><span>Abbott</span><span>Gillette</span><span>Godrej</span>
+        </div>
+      </div>
+      <div class="bottom-strip">
+        <div class="addr">3-5-124/2 Sai Sadan, Attapur, Pillar No. 143,<br>Hyderabad – 500048 · GSTIN 36AHPPJ1299L3ZM</div>
+        <div class="web">www.saibabatraders0.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 2 — WELCOME ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Welcome</div></div>
+      <h2 class="pt">From one counter to a thousand shelves</h2>
+      <p class="dek">A short note on who we are and how this catalogue works.</p>
+      <div class="two-col">
+        <div>
+          <p class="lead-para">Sai Baba Traders is a Hyderabad-based super stockist and large-scale distributor, supplying retailers, kirana stores, supermarkets and sub-distributors across the region with stock from twelve of the country's most trusted FMCG manufacturers.</p>
+          <p class="lead-para">This catalogue is organised the way our godown is organised — by category, then by principal company — so that whether you stock a general store, a medical counter or a supermarket aisle, you can find your order sheet quickly. Every brand listed here is billed with full GST documentation, and every carton that leaves our warehouse is checked against the order before it goes out.</p>
+          <p class="lead-para">Pages ahead cover our infrastructure, our coverage area, our full product range by category, how wholesale ordering works, and our terms for retail and wholesale buyers. For anything not listed, our sales team maintains a live stock sheet — call the numbers on the back cover.</p>
+        </div>
+        <div class="info-panel">
+          <h3>In This Catalogue</h3>
+          <ul>
+            <li>Company &amp; infrastructure</li>
+            <li>Coverage area</li>
+            <li>Principal companies (12)</li>
+            <li>Personal care &amp; beauty</li>
+            <li>Home care &amp; hygiene</li>
+            <li>Health, wellness &amp; OTC</li>
+            <li>Baby care</li>
+            <li>Oral care &amp; grooming</li>
+            <li>Food, beverages &amp; confectionery</li>
+            <li>How to order</li>
+            <li>Retail &amp; wholesale terms</li>
+            <li>FAQs &amp; contact</li>
+          </ul>
+        </div>
+      </div>
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 02</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 3 — ABOUT / STATS ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">About Us</div></div>
+      <h2 class="pt">A large distributor, built on stock discipline</h2>
+      <p class="dek">What retailers and sub-dealers can expect when they order from us.</p>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="num">12</div><div class="lbl">Principal Companies</div></div>
+        <div class="stat-card"><div class="num">6</div><div class="lbl">Product Categories</div></div>
+        <div class="stat-card"><div class="num">2</div><div class="lbl">Warehouse Godowns</div></div>
+        <div class="stat-card"><div class="num">Pan-India</div><div class="lbl">Dispatch Capability</div></div>
+      </div>
+      <ul class="feature-list">
+        <li><div class="fi">GT</div><div class="ft"><h4>General trade &amp; modern trade</h4><p>We supply kirana stores, medical counters, general stores, supermarkets and sub-stockists alike, with separate desks for retail and wholesale orders.</p></div></li>
+        <li><div class="fi">FC</div><div class="ft"><h4>Full-carton and mixed-carton billing</h4><p>Order in full cases for the best wholesale rates, or mixed cartons across brands for smaller retail top-ups.</p></div></li>
+        <li><div class="fi">GS</div><div class="ft"><h4>GST-compliant billing</h4><p>Every invoice is raised against GSTIN 36AHPPJ1299L3ZM with proper HSN-wise documentation for your own accounting.</p></div></li>
+        <li><div class="fi">CW</div><div class="ft"><h4>Clean, dry, pest-controlled storage</h4><p>Stock is held in organised godowns with FIFO rotation, so what reaches your shop is within shelf life.</p></div></li>
+      </ul>
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 03</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 4 — WAREHOUSE & INFRASTRUCTURE ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Infrastructure</div></div>
+      <h2 class="pt">Warehouse &amp; godown operations</h2>
+      <p class="dek">Stock handling is the backbone of a distribution business — here is how ours runs.</p>
+      <div class="two-col">
+        <div class="info-panel">
+          <h3>Storage &amp; Handling</h3>
+          <ul>
+            <li>Segregated racking by principal company and category</li>
+            <li>FIFO (first-in first-out) stock rotation on every SKU</li>
+            <li>Dry, ventilated storage suited to food, cosmetic and pharma-adjacent items</li>
+            <li>Routine pest control and housekeeping schedule</li>
+            <li>Manual and register-based stock verification alongside billing records</li>
+          </ul>
+        </div>
+        <div class="info-panel">
+          <h3>Dispatch &amp; Delivery</h3>
+          <ul>
+            <li>Own loading bay for local van delivery across Hyderabad</li>
+            <li>Tie-ups with transport operators for outstation and pan-India dispatch</li>
+            <li>Order-wise carton checking before loading</li>
+            <li>Delivery challan and tax invoice with every consignment</li>
+            <li>Support for sub-stockists booking onward transport from our godown</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:22px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--green);padding:16px 18px;">
+        <h3 style="margin:0 0 8px;font-size:13px;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;">Registered Warehouse Address</h3>
+        <p style="margin:0;font-size:13px;color:#333;line-height:1.6;">3-5-124/2 Sai Sadan, Attapur, Pillar No. 143, Hyderabad – 500048, Telangana</p>
+      </div>
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 04</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 5 — COVERAGE ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Coverage</div></div>
+      <h2 class="pt">Trusted pan-India, rooted in Hyderabad</h2>
+      <p class="dek">Our home base is Attapur, Hyderabad — with dispatch reach well beyond it.</p>
+      <div class="two-col">
+        <div>
+          <p class="lead-para">Our godown in Attapur is centrally placed for daily van delivery across Hyderabad and the surrounding districts of Telangana. For retailers and sub-stockists outside this radius, we book consignments through partner transport operators, giving us the ability to serve buyers across the country from a single warehouse.</p>
+          <p class="lead-para">Retail counters typically order in smaller, mixed quantities for daily shelf top-ups; wholesale buyers and sub-distributors order in full cartons or pallet lots for onward supply. We maintain separate order lines for both, listed on the contact page of this catalogue.</p>
+        </div>
+        <div class="info-panel">
+          <h3>Order Lines by Type</h3>
+          <ul>
+            <li>Retail Orders — for shop-level, daily and mixed-carton orders</li>
+            <li>Wholesale Orders — for bulk, full-carton and sub-stockist orders</li>
+            <li>Both lines are staffed for order booking, stock checks and dispatch status</li>
+          </ul>
+        </div>
+      </div>
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 05</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 6 — BRAND PARTNERS DIVIDER ============ -->
+  <div class="page divider">
+    <div class="page-inner">
+      <div class="d-eyebrow">Principal Companies</div>
+      <h2>Twelve brands.<br>One stockist.</h2>
+      <p class="lead">We hold and distribute stock on behalf of the following manufacturers. Full range detail begins on the following pages, organised by category.</p>
+      <div class="brand-icons">
+        <div class="brand-chip"><div class="ic">GSK</div><div class="nm">GlaxoSmithKline</div></div>
+        <div class="brand-chip"><div class="ic">HUL</div><div class="nm">Hindustan Unilever</div></div>
+        <div class="brand-chip"><div class="ic">N</div><div class="nm">Nestlé</div></div>
+        <div class="brand-chip"><div class="ic">E</div><div class="nm">Emami</div></div>
+        <div class="brand-chip"><div class="ic">D</div><div class="nm">Dabur</div></div>
+        <div class="brand-chip"><div class="ic">J&amp;J</div><div class="nm">Johnson &amp; Johnson</div></div>
+        <div class="brand-chip"><div class="ic">H</div><div class="nm">Himalaya</div></div>
+        <div class="brand-chip"><div class="ic">C</div><div class="nm">Cadbury</div></div>
+        <div class="brand-chip"><div class="ic">P&amp;G</div><div class="nm">Procter &amp; Gamble</div></div>
+        <div class="brand-chip"><div class="ic">A</div><div class="nm">Abbott</div></div>
+        <div class="brand-chip"><div class="ic">G</div><div class="nm">Gillette</div></div>
+        <div class="brand-chip"><div class="ic">G</div><div class="nm">Godrej</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 7 — CATEGORY DIVIDER: PERSONAL CARE ============ -->
+  <div class="page divider">
+    <div class="page-inner">
+      <div class="d-eyebrow">Category 01</div>
+      <h2>Personal Care &amp; Beauty</h2>
+      <p class="lead">Soaps, skin care, hair care and beauty essentials from Hindustan Unilever, Himalaya, Emami and Godrej — our highest-turnover category.</p>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 8 — PERSONAL CARE PRODUCTS ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Personal Care &amp; Beauty</div></div>
+      <div class="cat-band"><div class="cn">Personal Care &amp; Beauty</div><div class="cc">Category 01</div></div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Hindustan Unilever (HUL)</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Lux</span><span>Dove</span><span>Pears</span><span>Lifebuoy</span><span>Pond's</span><span>Vaseline</span><span>Glow &amp; Lovely</span><span>Clinic Plus</span><span>Sunsilk</span><span>TRESemmé</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Himalaya</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Purifying Neem Face Wash</span><span>Herbals Face Care range</span><span>Body Lotion range</span><span>Herbal Soaps</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Emami</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Navratna Cool Oil</span><span>BoroPlus</span><span>Emami Handsome range</span><span>Zandu range</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Godrej</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Godrej No.1 Soap</span><span>Cinthol</span><span>Godrej Expert Hair Colour</span>
+        </div></div>
+      </div>
+
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 08</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 9 — CATEGORY DIVIDER: HOME CARE ============ -->
+  <div class="page divider">
+    <div class="page-inner">
+      <div class="d-eyebrow">Category 02</div>
+      <h2>Home Care &amp; Hygiene</h2>
+      <p class="lead">Laundry, dishwash, household cleaning and pest control from Hindustan Unilever, Godrej and Procter &amp; Gamble.</p>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 10 — HOME CARE PRODUCTS ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Home Care &amp; Hygiene</div></div>
+      <div class="cat-band"><div class="cn">Home Care &amp; Hygiene</div><div class="cc">Category 02</div></div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Hindustan Unilever (HUL)</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Surf Excel</span><span>Rin</span><span>Wheel</span><span>Vim</span><span>Domex</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Godrej</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Godrej HIT</span><span>Good Knight</span><span>Ezee</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Procter &amp; Gamble (P&amp;G)</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Ariel</span><span>Tide</span><span>Ambi Pur</span>
+        </div></div>
+      </div>
+
+      <div class="info-panel" style="margin-top:8px;">
+        <h3>Ordering Note</h3>
+        <ul><li>Laundry and dishwash brands move fastest in full-carton wholesale lots — ask our wholesale desk for current case sizes and slab rates.</li></ul>
+      </div>
+
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 10</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 11 — CATEGORY DIVIDER: HEALTH & WELLNESS ============ -->
+  <div class="page divider">
+    <div class="page-inner">
+      <div class="d-eyebrow">Category 03</div>
+      <h2>Health, Wellness &amp; OTC</h2>
+      <p class="lead">Over-the-counter health, nutrition and wellness lines from GSK, Dabur and Abbott — a steady counter for medical and general stores alike.</p>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 12 — HEALTH & WELLNESS PRODUCTS ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Health, Wellness &amp; OTC</div></div>
+      <div class="cat-band"><div class="cn">Health, Wellness &amp; OTC</div><div class="cc">Category 03</div></div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">GSK (GlaxoSmithKline)</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Sensodyne</span><span>Eno</span><span>Crocin</span><span>Iodex</span><span>Otrivin</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Dabur</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Chyawanprash</span><span>Dabur Honey</span><span>Dabur Red Toothpaste</span><span>Hajmola</span><span>Dabur Amla</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Abbott</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Ensure</span><span>PediaSure</span><span>Digene</span><span>Cremaffin</span>
+        </div></div>
+      </div>
+
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 12</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 13 — CATEGORY DIVIDER: BABY CARE ============ -->
+  <div class="page divider">
+    <div class="page-inner">
+      <div class="d-eyebrow">Category 04</div>
+      <h2>Baby Care</h2>
+      <p class="lead">Trusted baby hygiene and care ranges from Johnson &amp; Johnson, Himalaya and Procter &amp; Gamble.</p>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 14 — BABY CARE PRODUCTS ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Baby Care</div></div>
+      <div class="cat-band"><div class="cn">Baby Care</div><div class="cc">Category 04</div></div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Johnson &amp; Johnson</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Johnson's Baby Powder</span><span>Johnson's Baby Soap</span><span>Johnson's Baby Oil</span><span>Johnson's Baby Shampoo</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Himalaya</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Himalaya Baby Lotion</span><span>Gentle Baby Wash</span><span>Himalaya Baby Powder</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Procter &amp; Gamble (P&amp;G)</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Pampers</span>
+        </div></div>
+      </div>
+
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 14</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 15 — CATEGORY DIVIDER: ORAL CARE & GROOMING ============ -->
+  <div class="page divider">
+    <div class="page-inner">
+      <div class="d-eyebrow">Category 05</div>
+      <h2>Oral Care &amp; Grooming</h2>
+      <p class="lead">Toothpaste, shaving and grooming essentials from GSK, Gillette and Hindustan Unilever.</p>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 16 — ORAL CARE & GROOMING PRODUCTS ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Oral Care &amp; Grooming</div></div>
+      <div class="cat-band"><div class="cn">Oral Care &amp; Grooming</div><div class="cc">Category 05</div></div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">GSK (GlaxoSmithKline)</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Sensodyne toothpaste range</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Gillette</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Gillette Mach3</span><span>Gillette Guard</span><span>Shaving Foam &amp; Gel</span><span>Gillette Venus</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Hindustan Unilever (HUL)</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Closeup</span><span>Pepsodent</span>
+        </div></div>
+      </div>
+
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 16</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 17 — CATEGORY DIVIDER: FOOD & BEVERAGES ============ -->
+  <div class="page divider">
+    <div class="page-inner">
+      <div class="d-eyebrow">Category 06</div>
+      <h2>Food, Beverages &amp; Confectionery</h2>
+      <p class="lead">Everyday food, beverages and confectionery from Nestlé, Cadbury and Dabur — reliable footfall drivers for any counter.</p>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 18 — FOOD PRODUCTS ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Food, Beverages &amp; Confectionery</div></div>
+      <div class="cat-band"><div class="cn">Food, Beverages &amp; Confectionery</div><div class="cc">Category 06</div></div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Nestlé</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Maggi Noodles</span><span>Nescafé</span><span>KitKat</span><span>Munch</span><span>Milkmaid</span><span>Nestlé Everyday</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Cadbury</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Dairy Milk</span><span>5 Star</span><span>Bournvita</span><span>Oreo</span><span>Perk</span><span>Gems</span>
+        </div></div>
+      </div>
+
+      <div class="brand-block">
+        <div class="bb-head"><div class="bn">Dabur</div><div class="tag">In Stock</div></div>
+        <div class="bb-body"><div class="prod-tags">
+          <span>Dabur Honey</span><span>Réal Fruit Juices</span>
+        </div></div>
+      </div>
+
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 18</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 19 — PRINCIPAL COMPANIES LEDGER ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Principal Companies</div></div>
+      <h2 class="pt">Our full stockist ledger</h2>
+      <p class="dek">All twelve principal companies we hold stock for, at a glance.</p>
+      <div class="partner-grid">
+        <div class="partner-card"><div class="mark">GSK</div><div class="nm">GlaxoSmithKline</div><div class="cat">Health &amp; oral care</div></div>
+        <div class="partner-card"><div class="mark">HUL</div><div class="nm">Hindustan Unilever</div><div class="cat">Personal &amp; home care</div></div>
+        <div class="partner-card"><div class="mark">N</div><div class="nm">Nestlé</div><div class="cat">Food &amp; beverages</div></div>
+        <div class="partner-card"><div class="mark">E</div><div class="nm">Emami</div><div class="cat">Personal care</div></div>
+        <div class="partner-card"><div class="mark">D</div><div class="nm">Dabur</div><div class="cat">Health &amp; food</div></div>
+        <div class="partner-card"><div class="mark">J&amp;J</div><div class="nm">Johnson &amp; Johnson</div><div class="cat">Baby care</div></div>
+        <div class="partner-card"><div class="mark">H</div><div class="nm">Himalaya</div><div class="cat">Personal &amp; baby care</div></div>
+        <div class="partner-card"><div class="mark">C</div><div class="nm">Cadbury</div><div class="cat">Confectionery</div></div>
+        <div class="partner-card"><div class="mark">P&amp;G</div><div class="nm">Procter &amp; Gamble</div><div class="cat">Home &amp; baby care</div></div>
+        <div class="partner-card"><div class="mark">A</div><div class="nm">Abbott</div><div class="cat">Health &amp; nutrition</div></div>
+        <div class="partner-card"><div class="mark">G</div><div class="nm">Gillette</div><div class="cat">Grooming</div></div>
+        <div class="partner-card"><div class="mark">G</div><div class="nm">Godrej</div><div class="cat">Personal &amp; home care</div></div>
+      </div>
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 19</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 20 — HOW TO ORDER ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">How To Order</div></div>
+      <h2 class="pt">Placing a wholesale order</h2>
+      <p class="dek">A straightforward process from stock check to delivery.</p>
+
+      <div class="step-row"><div class="step-mark">1</div><div class="step-body"><h4>Call the relevant order line</h4><p>Use the Retail Orders numbers for shop-level top-ups, or the Wholesale Orders numbers for bulk and sub-stockist orders.</p></div></div>
+      <div class="step-row"><div class="step-mark">2</div><div class="step-body"><h4>Share your order sheet</h4><p>Tell our desk the brands, products and quantities you need — by category, as listed in this catalogue — or share a written list over call.</p></div></div>
+      <div class="step-row"><div class="step-mark">3</div><div class="step-body"><h4>Confirm stock &amp; rate</h4><p>Our team confirms current stock availability and applicable wholesale or retail slab rate before booking the order.</p></div></div>
+      <div class="step-row"><div class="step-mark">4</div><div class="step-body"><h4>Billing</h4><p>A GST tax invoice is raised against GSTIN 36AHPPJ1299L3ZM, with delivery challan for your records.</p></div></div>
+      <div class="step-row"><div class="step-mark">5</div><div class="step-body"><h4>Dispatch &amp; delivery</h4><p>Local Hyderabad orders go out by our own delivery van; outstation and pan-India orders are booked through our transport partners.</p></div></div>
+
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 20</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 21 — RETAIL VS WHOLESALE TERMS ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Terms of Trade</div></div>
+      <h2 class="pt">Retail &amp; wholesale ordering terms</h2>
+      <p class="dek">General terms — final rates and minimum quantities are confirmed at the time of order.</p>
+      <table class="terms">
+        <tr><th>Term</th><th>Retail Orders</th><th>Wholesale Orders</th></tr>
+        <tr><td>Order type</td><td>Mixed-carton, shop-level top-ups</td><td>Full-carton, bulk and sub-stockist supply</td></tr>
+        <tr><td>Best suited to</td><td>Kirana &amp; general stores, medical counters</td><td>Sub-distributors, supermarkets, large retailers</td></tr>
+        <tr><td>Billing</td><td>GST tax invoice on every order</td><td>GST tax invoice on every order</td></tr>
+        <tr><td>Delivery</td><td>Local van delivery (Hyderabad)</td><td>Local van or transport-partner dispatch</td></tr>
+        <tr><td>Contact line</td><td>Retail Orders numbers</td><td>Wholesale Orders numbers</td></tr>
+      </table>
+      <div class="info-panel" style="margin-top:20px;">
+        <h3>Good to Know</h3>
+        <ul>
+          <li>Stock availability is confirmed at the time of order — this catalogue reflects our standard range, not live stock.</li>
+          <li>Rates follow standard MRP-linked wholesale and retail margins as set by each principal company.</li>
+          <li>All returns and shortages are handled directly with our order desk within the agreed delivery window.</li>
+        </ul>
+      </div>
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 21</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 22 — WHY RETAILERS TRUST US ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">Why Retailers Choose Us</div></div>
+      <h2 class="pt">Trusted across our trading area</h2>
+      <p class="dek">What buyers value most when working with us.</p>
+      <div class="quote-card"><p>"One call covers most of what my store needs — soaps, snacks, and health items, all on one invoice."</p><div class="who">General Store Owner, Hyderabad</div></div>
+      <div class="quote-card"><p>"Full cartons arrive properly packed and on the day promised — that consistency is what keeps us ordering from the same stockist."</p><div class="who">Sub-Distributor, Telangana</div></div>
+      <div class="quote-card"><p>"Having a separate wholesale line means our bulk orders don't get stuck behind small retail calls."</p><div class="who">Supermarket Buyer, Hyderabad</div></div>
+      <ul class="feature-list" style="margin-top:16px;">
+        <li><div class="fi">✓</div><div class="ft"><h4>Twelve principal companies, one order desk</h4><p>Fewer calls, fewer invoices, simpler reconciliation for your shop's accounts.</p></div></li>
+        <li><div class="fi">✓</div><div class="ft"><h4>Clean warehousing</h4><p>Organised, pest-controlled godowns with FIFO stock rotation.</p></div></li>
+        <li><div class="fi">✓</div><div class="ft"><h4>Pan-India dispatch</h4><p>Local van delivery in Hyderabad, transport-partner dispatch nationwide.</p></div></li>
+      </ul>
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 22</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 23 — FAQ ============ -->
+  <div class="page">
+    <div class="page-inner">
+      <div class="p-head"><div class="wordmark">Sai Baba Traders</div><div class="eyebrow">FAQ</div></div>
+      <h2 class="pt">Frequently asked questions</h2>
+      <div class="faq-item"><h4>Do you supply outside Hyderabad?</h4><p>Yes. Local orders are delivered by our own van; outstation and pan-India orders are dispatched through our transport partners.</p></div>
+      <div class="faq-item"><h4>Can I order a mix of brands in one call?</h4><p>Yes — most retail orders combine several principal companies on a single invoice. Wholesale bulk orders are usually placed brand-wise for full-carton efficiency.</p></div>
+      <div class="faq-item"><h4>Which number should I call — retail or wholesale?</h4><p>Use Retail Orders for shop-level, mixed-carton buying, and Wholesale Orders for bulk, full-carton or sub-stockist supply.</p></div>
+      <div class="faq-item"><h4>Do you provide GST invoices?</h4><p>Yes, every order is billed against GSTIN 36AHPPJ1299L3ZM with a proper tax invoice and delivery challan.</p></div>
+      <div class="faq-item"><h4>Is this catalogue's product list complete?</h4><p>It covers our standard range by category. For SKUs not listed, our order desk maintains a live stock sheet — please call to confirm availability.</p></div>
+      <div class="p-foot"><span>Sai Baba Traders — Wholesale FMCG Catalogue</span><span class="pg">Page 23</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 24 — CONTACT / BACK COVER ============ -->
+  <div class="page contact-page">
+    <div class="page-inner">
+      <div class="d-eyebrow">Get In Touch</div>
+      <h2 style="font-size:38px;color:#fff;margin:0 0 8px;font-weight:800;">Place your order today</h2>
+      <p class="lead" style="margin-bottom:0;">Retail and wholesale desks are staffed to confirm stock, rates and delivery on the same call.</p>
+
+      <div class="contact-grid">
+        <div class="c-block">
+          <h3>Retail Orders</h3>
+          <div class="num-row"><span class="l">Line 1</span><span>9666793555</span></div>
+          <div class="num-row"><span class="l">Line 2</span><span>9281450509</span></div>
+          <div class="num-row"><span class="l">Line 3</span><span>9281420509</span></div>
+          <div class="num-row"><span class="l">Line 4</span><span>7780162202</span></div>
+        </div>
+        <div class="c-block">
+          <h3>Wholesale Orders</h3>
+          <div class="num-row"><span class="l">Line 1</span><span>9290220509</span></div>
+          <div class="num-row"><span class="l">Line 2</span><span>9849673391</span></div>
+        </div>
+      </div>
+
+      <div class="c-block" style="margin-top:18px;">
+        <h3>Registered Address &amp; GSTIN</h3>
+        <p style="margin:0 0 8px;font-size:13.5px;color:#DCE6F0;line-height:1.6;">3-5-124/2 Sai Sadan, Attapur, Pillar No. 143, Hyderabad – 500048, Telangana</p>
+        <p class="mono" style="margin:0;font-size:13px;color:var(--saffron);">GSTIN: 36AHPPJ1299L3ZM</p>
+      </div>
+
+      <div class="back-web">
+        <div class="w">www.saibaba<span>traders0</span>.com</div>
+        <div class="g">Authorised Super Stockist · Pan-India Dispatch · Clean Warehouse Godowns</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
